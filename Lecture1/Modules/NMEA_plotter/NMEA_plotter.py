@@ -16,6 +16,7 @@ class NMEA_plotter:
     def __init__(self):
         self.self_passed = ["$GPGSV", ]
 
+
     def plot_height_over_time(self, nmea_file):
         #Plots the altitude over time.
         #Just displays the plot when done (Should probably be changed so we return a plotobject or something)
