@@ -35,7 +35,7 @@ Revision
 2016-01-16 KJ Corrected a minor problem with the library location reference.
 """
 # import utmconv class
-from transverse_mercator_py.utm import utmconv
+from utm import utmconv
 from math import pi, cos
 
 # define test position
@@ -52,6 +52,8 @@ uc = utmconv()
 (hemisphere, zone, letter, easting, northing) = uc.geodetic_to_utm (test_lat,test_lon)
 print '\nConverted from geodetic to UTM [m]'
 print '  %d %c %.5fe %.5fn' % (zone, letter, easting, northing)
+easting += 1000
+northing += 1000
 
 # convert back from UTM to geodetic
 (lat, lon) = uc.utm_to_geodetic (hemisphere, zone, easting, northing)

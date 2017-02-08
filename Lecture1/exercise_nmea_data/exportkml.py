@@ -44,7 +44,7 @@ class kmlclass:
         self.f.write ('<description>%s</description>\n' % (desc))
         self.f.write ('<Style id="red">\n')
         self.f.write ('  <LineStyle>\n')
-        self.f.write ('    <color>ff0000ff</color>\n')      
+        self.f.write ('    <color>ff0000ff</color>\n')
         self.f.write ('    <width>%.1f</width>\n' % (width))
         self.f.write ('  </LineStyle>\n')
         self.f.write ('</Style>\n')
@@ -86,9 +86,9 @@ class kmlclass:
         self.f.write ('<description>%s</description>\n' % (segdesc))
         self.f.write ('<styleUrl>#%s</styleUrl>\n' % (color))
         self.f.write ('<LineString>\n')
-	if altitude == 'absolute': 
+	if altitude == 'absolute':
 	       self.f.write ('<altitudeMode>absolute</altitudeMode>\n')
-	elif  altitude == 'relativeToGround': 
+	elif  altitude == 'relativeToGround':
 	       self.f.write ('<altitudeMode>relativeToGround</altitudeMode>\n')
         self.f.write ('<coordinates>\n')
         return
@@ -108,4 +108,3 @@ class kmlclass:
         self.f.write ('</kml>')
         self.f.close ()
         return
-
