@@ -17,8 +17,8 @@ def plot_route(kml_filename, data_filename):
             # Only read lines if they are not empty
             if "$GPGGA" in line:
                 msg = pynmea2.parse(line)
-
-                kml.trkpt(float(msg.latitude), float(msg.longitude), float(msg.altitude))
+                if None not in [msg.latitude, msg.longitude, msg.altitude]:
+                    kml.trkpt(float(msg.latitude), float(msg.longitude), float(msg.altitude))
 
     kml.trksegend()
     kml.end()
@@ -27,7 +27,7 @@ def __main__():
 
 
     plot_route("drone_track.kml", "nmea_trimble_gnss_eduquad_flight.txt")
-    #plot_route("static_track.kml", "nmea_ublox_neo_24h_static.txt")
+    plot_route("static_track.kml", "nmea_ublox_neo_24h_static.txt")
 
 
     utm_test.test_utm_gcd_difference()
