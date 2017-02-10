@@ -6,6 +6,6 @@ To run this code you need matplotlib, numpy and pynmea2 (should all be installab
 Run with 'python2 main.py'
 
 A drone_track.kml file with be created containing the track for the drone.
-Three pyplot windows will pop up containing drone height over time,  sattelites in use by static station over time and sattelites in use by drone over time.
+four pyplot windows will pop up containing drone height over time,  sattelites in use by static station over time, sattelites in use by drone over time, and the position of the static station in UTM coorinates.
 
-Also, the script will print out info about difference in computing distance using UTM and great circle distance
+Also, the script will print out info about difference in computing distance using UTM and great circle distance.

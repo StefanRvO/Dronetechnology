@@ -26,6 +26,7 @@ def plot_route(kml_filename, data_filename):
 def __main__():
 
 
+
     plot_route("drone_track.kml", "nmea_trimble_gnss_eduquad_flight.txt")
     plot_route("static_track.kml", "nmea_ublox_neo_24h_static.txt")
 
@@ -33,12 +34,15 @@ def __main__():
     utm_test.test_utm_gcd_difference()
 
     plotter = NMEA_plotter.NMEA_plotter()
+
     #plot drone height over time
     plotter.plot_height_over_time("nmea_trimble_gnss_eduquad_flight.txt")
     #plot sattelites in use by static station over time.
     plotter.plot_sattelites_in_use_over_time("nmea_ublox_neo_24h_static.txt")
     #plot sattelites in use by drone over time.
     plotter.plot_sattelites_in_use_over_time("nmea_trimble_gnss_eduquad_flight.txt")
+    #Plot static station position in UTM coordinates
+    plotter.plot_lat_lon_utm("nmea_ublox_neo_24h_static.txt")
 
 
 __main__()

@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import dates
 import datetime
+from Modules.transverse_mercator_py.utm import utmconv
 
 class parsed_object:
     def __init__(self):
@@ -31,6 +32,30 @@ class NMEA_plotter:
         #Plots the altitude over time.
         #Just displays the plot when done (Should probably be changed so we return a plotobject or something)
         self.plot_x_over_time(nmea_file, plotattrib = 'sats_in_view', sentence_type = "$GPGSV")
+
+    def plot_lat_lon_utm(self, nmea_file):
+        uc = utmconv()
+        x = []
+        y = []
+        times = []
+        with open(nmea_file, "r") as data_file:
+            for line in data_file:
+                # We want GPGGA data!
+                if "$GPGGA" in line:
+                    msg = pynmea2.parse(line)
+                    if not None in [msg.latitude, msg.longitude] and not 0.0 in [msg.latitude, msg.longitude]:
+                        #Convert to utm
+                        (hemisphere, zone, letter, easting, northing) = uc.geodetic_to_utm (msg.latitude, msg.longitude)
+                        #easting is x, northing is y
+                        y.append(northing)
+                        x.append(easting)
+        plt.plot(x,y)
+        plt.axes().set_aspect('equal')
+        plt.xlabel('Easting (m)')
+        plt.ylabel('Northing (m)')
+
+        plt.grid(True)
+        plt.show()
 
     def plot_x_over_time(self, nmea_file, plotattrib, sentence_type):
         #Plot variable x over time (from gpgga data)
