@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 
 # looping through file
-def plot_accel(imuType, fileName, plot_func, showplot = True, saveplot = True):
+def plot_accel(imuType, fileName, plot_func, pngname = None, showplot = True, saveplot = True):
     ## Variables for plotting ##
     showPlot = True
     plotData = []
@@ -39,8 +39,8 @@ def plot_accel(imuType, fileName, plot_func, showplot = True, saveplot = True):
         ts_recv = float(csv[0])
         if count == 1:
             ts_now = ts_recv # only the first time
-            ts_prev = ts_now
-            ts_now = ts_recv
+        ts_prev = ts_now
+        ts_now = ts_recv
 
         if imuType == 'sparkfun_razor':
             # import data from a SparkFun Razor IMU (SDU firmware)
@@ -77,8 +77,9 @@ def plot_accel(imuType, fileName, plot_func, showplot = True, saveplot = True):
         ## Insert your code here ##
 
 
-        plot_func(acc_x = acc_x, acc_y = acc_y, acc_z = acc_z
-            , gyro_x = gyro_x, gyro_y = gyro_y, gyro_z = gyro_z, plotdata = plotdata)
+        plot_func(acc_x = acc_x, acc_y = acc_y, acc_z = acc_z,
+            gyro_x = gyro_x, gyro_y = gyro_y, gyro_z = gyro_z,
+            ts_now = ts_now, ts_prev = ts_prev, plotdata = plotdata)
         # in order to show a plot use this function to append your value to a list:
         #plotData.append (plotvar*180.0/pi)
 
@@ -94,6 +95,9 @@ def plot_accel(imuType, fileName, plot_func, showplot = True, saveplot = True):
             plt.plot(series["data"], label=series["label"])
         plt.legend()
         if(saveplot):
-            plt.savefig(fileName + ".png")
+            if(pngname == None):
+                plt.savefig(fileName + ".png")
+            else:
+                plt.savefig(pngname)
         if(showplot):
             plt.show()
