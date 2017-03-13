@@ -1,5 +1,6 @@
 #!/usr/bin/python2
 from Modules.imu_exercise import plot_accel
+from Modules.imu_exercise_kalman import plot_accel as plot_kalman
 from math import pi, sqrt, atan2
 
 def do_running_average(data_list, n):
@@ -181,6 +182,22 @@ def __main__():
     fileName = 'imu_razor_data_static.txt'
     imuType = 'sparkfun_razor'
     plot_accel(imuType, fileName, plot_yaw_gyro_func, pngname = "gyro_yaw.png", showplot = False)
+
+    #Plot using kalman filter and pitch dataset
+    fileName = 'imu_razor_data_pitch_45deg.txt'
+    imuType = 'sparkfun_razor'
+    plot_kalman(imuType, fileName, showPlot = True, show3DLiveView = False,
+        gyro_bias = {"x" : (50.5 / 1300.) / (180. / pi) * 100, "y" : (36.2 / 1300.) / (180. / pi) * 100, "z" : 0 },
+        gyro_var = 0.38 / (180. / pi) / 100,
+        axis = "pitch")
+
+    #Plot using kalman filter and roll dataset
+    fileName = 'imu_razor_data_roll_45deg.txt'
+    imuType = 'sparkfun_razor'
+    plot_kalman(imuType, fileName, showPlot = True, show3DLiveView = False,
+        gyro_bias = {"x" : (50.5 / 1300.) / (180. / pi) * 100, "y" : (36.2 / 1300.) / (180. / pi) * 100, "z" : 0 },
+        gyro_var = 0.38 / (180. / pi) / 100,
+        axis = "roll")
 
 
 __main__()
