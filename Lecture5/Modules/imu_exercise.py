@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 def plot_accel(imuType, fileName, plot_func, pngname = None, showplot = True, saveplot = True):
     ## Variables for plotting ##
     showPlot = True
-    plotData = []
     plotdata = {}
     # open the imu data file
     f = open (fileName, "r")
@@ -101,3 +100,4 @@ def plot_accel(imuType, fileName, plot_func, pngname = None, showplot = True, sa
                 plt.savefig(pngname)
         if(showplot):
             plt.show()
+    plt.clf()

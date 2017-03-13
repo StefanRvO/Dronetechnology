@@ -155,10 +155,12 @@ def __main__():
     fileName = 'imu_razor_data_pitch_45deg.txt'
     imuType = 'sparkfun_razor'
     plot_accel(imuType, fileName, plot_pitch_func, pngname = "pitch_accel.png", showplot = False)
+
     #plot the roll data
     fileName = 'imu_razor_data_roll_45deg.txt'
     imuType = 'sparkfun_razor'
     plot_accel(imuType, fileName, plot_roll_func, pngname = "roll_accel.png", showplot = False)
+
     #plot the static data
     fileName = 'imu_razor_data_static.txt'
     imuType = 'sparkfun_razor'
