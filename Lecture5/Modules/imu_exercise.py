@@ -21,6 +21,7 @@ def plot_accel(imuType, fileName, plot_func, showplot = True, saveplot = True):
     ## Variables for plotting ##
     showPlot = True
     plotData = []
+    plotdata = {}
     # open the imu data file
     f = open (fileName, "r")
 
@@ -76,10 +77,10 @@ def plot_accel(imuType, fileName, plot_func, showplot = True, saveplot = True):
         ## Insert your code here ##
 
 
-        plotvar = plot_func(acc_x =acc_x, acc_y = acc_y, acc_z = acc_z
-            , gyro_x = gyro_x, gyro_y = gyro_y, gyro_z = gyro_z)
+        plot_func(acc_x = acc_x, acc_y = acc_y, acc_z = acc_z
+            , gyro_x = gyro_x, gyro_y = gyro_y, gyro_z = gyro_z, plotdata = plotdata)
         # in order to show a plot use this function to append your value to a list:
-        plotData.append (plotvar*180.0/pi)
+        #plotData.append (plotvar*180.0/pi)
 
         ######################################################
 
@@ -88,7 +89,10 @@ def plot_accel(imuType, fileName, plot_func, showplot = True, saveplot = True):
 
     # show the plot
     if showPlot == True:
-        plt.plot(plotData)
+        #plt.plot(plotData)
+        for series in plotdata["series"]:
+            plt.plot(series["data"], label=series["label"])
+        plt.legend()
         if(saveplot):
             plt.savefig(fileName + ".png")
         if(showplot):
