@@ -1,0 +1,3 @@
+pynmea2
+matplotlib
+numpy
