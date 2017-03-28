@@ -21,7 +21,7 @@ MAV_CMD_NAV_TAKEOFF = 22
 
 
 
-class QGroundControl_WP_Gen:
+class QGroundControl_WP_Exporter:
     def __init__(self, track_data):
         self.track_data = track_data
 

@@ -41,7 +41,7 @@ def __main__():
     plot_route("aql_021.kml", [{"color" : "yellowLineGreenPoly", "data" : waypoints},
                             {"color" : "blueLineGreenPoly", "data" : dict_data},
                             ])
-    q_control_wp = QGroundControl_WP_Gen(waypoints)
+    q_control_wp = QGroundControl_WP_Exporter(waypoints)
     q_control_wp.export("qg_wp.txt")
     #Plot NMEA data
     # nmea_dict_data = []
