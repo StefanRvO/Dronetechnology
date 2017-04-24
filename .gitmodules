@@ -1,0 +1,3 @@
+[submodule "Project/Autonomous-precision-landing_BScF16_MHE-TL"]
+	path = Project/Autonomous-precision-landing_BScF16_MHE-TL
+	url = https://github.com/TobiasLundby/Autonomous-precision-landing_BScF16_MHE-TL.git
