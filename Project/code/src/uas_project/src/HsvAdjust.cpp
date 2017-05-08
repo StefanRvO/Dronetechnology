@@ -24,7 +24,7 @@ void HsvAdjust::hsvSegmentation(Mat img)
 {
     namedWindow("Original", cv::WINDOW_NORMAL);
     imshow("Original", img);
-    cv::resizeWindow("Original", 1000,1000);
+    cv::resizeWindow("Original", 500,500);
 
     cv::cvtColor(img, imghsv, CV_BGR2HSV);
 
@@ -36,7 +36,7 @@ void HsvAdjust::hsvSegmentation(Mat img)
 	vSliderMax = 255;
 
     namedWindow("Colour Segmentation", cv::WINDOW_NORMAL);
-    cv::resizeWindow("Colour Segmentation", 1000,1000);
+    cv::resizeWindow("Colour Segmentation", 500,500);
 
     cv::createTrackbar( "Hue min", "Colour Segmentation", &hSliderMin, hSlider, &HsvAdjust::on_trackbar, (void *)this);
     cv::createTrackbar( "Hue max", "Colour Segmentation", &hSliderMax, hSlider,  &HsvAdjust::on_trackbar, (void *)this);
