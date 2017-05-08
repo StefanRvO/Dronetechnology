@@ -20,7 +20,7 @@ sensor_msgs::Image imageToMsg(Mat &img)
     header.seq = 1; // user defined counter
     header.stamp = ros::Time::now(); // time
 
-    img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::RGB8, img);
+    img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, img); //RGB8 bgr8
     img_bridge.toImageMsg(img_msg); // from cv_bridge to sensor_msgs::Image
 
     return img_msg;
