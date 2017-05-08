@@ -4,7 +4,8 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
 #include <cv_bridge/cv_bridge.h>
-
+#include <iostream>
+#include <image_transport/image_transport.h>
 using namespace std;
 using namespace cv;
 
@@ -32,7 +33,8 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "image_grabber"); // Init ROS
     ros::NodeHandle nh; // Node handler
-    ros::Publisher pub = nh.advertise<sensor_msgs::Image>("camera_image", 5);   // Image publisher
+    image_transport::ImageTransport it(nh);
+    image_transport::Publisher pub = it.advertise("camera_image", 5);   // Image publisher
 
     Mat cameraFrame;
     VideoCapture camera(0); // Open default camera 0
@@ -43,7 +45,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    while(1)
+    while(ros::ok())
     {
         camera.read(cameraFrame);   // Grab image from webcam
 
