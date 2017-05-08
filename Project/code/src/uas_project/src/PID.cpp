@@ -1,22 +1,24 @@
 /*
-*   PID controller 
+*   PID controller
 */
 
 #include "PID.hpp"
+#include <iostream>
+#include <cassert>
+#include  <algorithm>
 
 PID::PID(double kp, double ki, double kd, double dt, double max, double min)
 {
-    _kp = kp;
-    _ki = ki;
-    _kd = kd;
-    _dt = dt;
-    _max = max;
-    _min = min;
-    _integral = 0;
-    _lastError = 0;
+    this->_kp = kp;
+    this->_ki = ki;
+    this->_kd = kd;
+    this->_dt = dt;
+    this->_max = max;
+    this->_min = min;
+    this->_integral = 0;
+    this->_lastError = 0;
 
-    if(dt == 0.0)
-        cout << "ERROR: dt cannot be zero!" << endl;
+    assert(dt != 0.0);
 }
 
 double PID::calculate(double setpoint, double feedback)
@@ -24,25 +26,22 @@ double PID::calculate(double setpoint, double feedback)
     double error = setpoint - feedback;
 
     // Proportional term
-    double pOut = _kp * error;
+    double pOut = this->_kp * error;
 
     // Integral term
-    _integral += error * _dt;
-    double iOut = _ki * _integral;
+    this->_integral += error * _dt;
+    double iOut = this->_ki * this->_integral;
 
     // Derivative term
-    double dOut = _kd * (error - _lastError)/_dt;
+    double dOut = this->_kd * (error - this->_lastError)/this->_dt;
 
 
     // PID output
     double output = pOut + iOut + dOut;
 
     // Clamp output to min and max.
-    if(output > _max)
-        output = _max;
-    if(output < _min)
-        output = _min;
-
+    output = std::min(this->_max, output);
+    output = std::max(this->_min, output);
     _lastError = error;
 
     return output;
