@@ -127,9 +127,9 @@ include_directories(SYSTEM "headers/Autonomous-precision-landing_BScF16_MHE-TL/D
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
- add_executable(${PROJECT_NAME}_dsmx_injector src/main.cpp)
+ add_executable(${PROJECT_NAME}_dsmx_injector src/DSMX_injector.cpp)
 add_dependencies(${PROJECT_NAME}_dsmx_injector ${catkin_EXPORTED_TARGETS})
-target_link_libraries(${PROJECT_NAME}_dsmx_injector ${OpenCV_LIBS}  ${catkin_LIBRARIES} wiringPi)
+target_link_libraries(${PROJECT_NAME}_dsmx_injector ${OpenCV_LIBS}  ${catkin_LIBRARIES} wiringPi pthread)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
