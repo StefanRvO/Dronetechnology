@@ -15,10 +15,10 @@ class HsvAdjust
 {
     public:
         HsvAdjust();
-        void hsvSegmentation(Mat img);
-        void segmentFromWebcam();
-        void grabWebcamImage(string savePath);
-
+        void guiSegmentation(Mat img);
+        Mat findContours(Mat img);
+        Point2f getBallPosition(Mat img);
+        void printValues();
     private:
         //slider values
         const int hSlider = 180;
@@ -34,6 +34,13 @@ class HsvAdjust
         int vSliderMax;
 
         double hue;
+
+        const int threshSlider = 1000;
+        int areaThresh;
+        int compactThresh;
+
+        Point2f Center;
+        float Radius;
 
         cv::Mat dst;
         cv::Mat imghsv;
