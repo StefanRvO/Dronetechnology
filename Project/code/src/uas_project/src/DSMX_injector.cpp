@@ -12,7 +12,8 @@
 class DSMX_injector
 {
     public:
-        DSMX_injector(std::string device,   uint8_t overwrite_channel,
+        DSMX_injector(std::string device, ros::NodeHandle *_nh,
+                                            uint8_t overwrite_channel,
                                             uint8_t throttle_channel,
                                             uint8_t yaw_channel,
                                             uint8_t pitch_channel,
@@ -26,6 +27,7 @@ class DSMX_injector
         void change_channel_offset(uint8_t channel, int16_t offset);
 
     private:
+
         uint8_t overwrite_channel;
         uint8_t yaw_channel;
         uint8_t pitch_channel;
@@ -36,7 +38,7 @@ class DSMX_injector
         std::mutex mtx;
         bool stop = false;
         bool overwrite = false;
-        ros::NodeHandle nh;
+        ros::NodeHandle *nh;
         ros::Subscriber throttle_sub;
         ros::Subscriber yaw_sub;
         ros::Subscriber pitch_sub;
@@ -45,17 +47,19 @@ class DSMX_injector
 };
 
 
-DSMX_injector::DSMX_injector(std::string device,    uint8_t _overwrite_channel,
-                                                    uint8_t _throttle_channel,
-                                                    uint8_t _yaw_channel,
-                                                    uint8_t _pitch_channel,
-                                                    uint8_t _roll_channel)
+DSMX_injector::DSMX_injector(std::string device, ros::NodeHandle *_nh,
+                                    uint8_t _overwrite_channel,
+                                    uint8_t _throttle_channel,
+                                    uint8_t _yaw_channel,
+                                    uint8_t _pitch_channel,
+                                    uint8_t _roll_channel)
 :overwrite_channel(_overwrite_channel), yaw_channel(_yaw_channel), pitch_channel(_pitch_channel),
 roll_channel(_roll_channel), throttle_channel(_throttle_channel), dsm_analyser((char *)device.c_str()), analyser_thread(&DSMX_injector::run_thread, this),
-throttle_sub(nh.subscribe<std_msgs::Int16>("/yaw_offset",5, &DSMX_injector::throttle_callback, this)),
-yaw_sub(nh.subscribe<std_msgs::Int16>("/throttle_offset",5, &DSMX_injector::yaw_callback, this)),
-pitch_sub(nh.subscribe<std_msgs::Int16>("/pitch_offset",5, &DSMX_injector::pitch_callback, this)),
-roll_sub(nh.subscribe<std_msgs::Int16>("/roll_offset",5, &DSMX_injector::roll_callback, this))
+nh(_nh),
+throttle_sub(nh->subscribe<std_msgs::Int16>("/yaw_offset",5, &DSMX_injector::throttle_callback, this)),
+yaw_sub(nh->subscribe<std_msgs::Int16>("/throttle_offset",5, &DSMX_injector::yaw_callback, this)),
+pitch_sub(nh->subscribe<std_msgs::Int16>("/pitch_offset",5, &DSMX_injector::pitch_callback, this)),
+roll_sub(nh->subscribe<std_msgs::Int16>("/roll_offset",5, &DSMX_injector::roll_callback, this))
 {
 }
 
@@ -127,8 +131,11 @@ void DSMX_injector::print_all()
 
 int main(int argc, char **argv)
 {
-    std::string port(argv[1]);
+    std::string port;
     ros::init(argc, argv, "dsmxInjector");
-    DSMX_injector injector(port, 4, 0, 1, 2, 3);
+    ros::NodeHandle nh("~");
+    nh.param<std::string>("uart_device", port, "/dev/ttyAMA0");
+    std::cout << port << std::endl;
+    DSMX_injector injector(port, &nh, 4, 0, 1, 2, 3);
     ros::spin();
 }
