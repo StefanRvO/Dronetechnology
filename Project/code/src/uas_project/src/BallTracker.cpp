@@ -25,8 +25,10 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
     //adjust.guiSegmentation(img);  // Only for finding the correct settings for vison ball finding
     Point2f ballPosition = adjust.getBallPosition(img);
     geometry_msgs::Point p;
-    p.x = ballPosition.x;
-    p.y = ballPosition.y;
+    //std::cout << img.size() << std::endl;
+
+    p.x = ballPosition.x - img.size().width / 2.;
+    p.y = ballPosition.y - img.size().height / 2.;
     ball_position_pub->publish(p);
   }
   catch (cv_bridge::Exception& e)

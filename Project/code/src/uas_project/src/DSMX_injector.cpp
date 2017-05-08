@@ -72,8 +72,10 @@ void DSMX_injector::yaw_callback(const std_msgs::Int16 data)
 {
     this->change_channel_offset(this->yaw_channel, data.data);
 }
+
 void DSMX_injector::roll_callback(const std_msgs::Int16 data)
 {
+    std::cout << "roll_offset: " << data << std::endl;
     this->change_channel_offset(this->roll_channel, data.data);
 }
 
@@ -96,7 +98,8 @@ void DSMX_injector::run_thread()
 {
     while(!this->stop)
     {
-        //printf("analysing\n");
+        std::cout << "analysing\n" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         this->mtx.lock();
         this->dsm_analyser.DSM_analyse(false);
         this->overwrite = (dsm_analyser.get_in_channel_value(this->overwrite_channel) < 800);
@@ -104,15 +107,14 @@ void DSMX_injector::run_thread()
         {
             this->dsm_analyser.change_channel_offsets(0,0,0,0,0,0,0);
         }
-        this->print_all();
         this->mtx.unlock();
+        //this->print_all();
     }
 }
 
 
 void DSMX_injector::print_all()
 {
-    this->mtx.lock();
     printf(
         "\nRX frame\nChannel  Value\n0\t%i\n1\t%i\n2\t%i\n3\t%i\n4\t%i\n5\t%i\n6\t%i\n7\t%i\n",
         this->dsm_analyser.get_in_channel_value(0),
@@ -124,7 +126,6 @@ void DSMX_injector::print_all()
         this->dsm_analyser.get_in_channel_value(6),
         this->dsm_analyser.get_in_channel_value(7)
     );
-    this->mtx.unlock();
 }
 
 
@@ -134,6 +135,7 @@ int main(int argc, char **argv)
     std::string port;
     ros::init(argc, argv, "dsmxInjector");
     ros::NodeHandle nh("~");
+
     nh.param<std::string>("uart_device", port, "/dev/ttyAMA0");
     std::cout << port << std::endl;
     DSMX_injector injector(port, &nh, 4, 0, 1, 2, 3);
