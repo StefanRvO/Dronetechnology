@@ -19,7 +19,11 @@
 #include <sys/time.h>   /* time */
 
 #include <wiringSerial.h>
+#include <algorithm>
+#include <iostream>
 
+#define MAX_VAL 1705
+#define MIN_VAL 342
 /*****************************   Namespaces  *******************************/
 using namespace std;
 
@@ -239,6 +243,9 @@ void DSM_RX_TX::set_channel_value(package &p, int channel, int value)
 *   Function : Sets the value of a channel
 ******************************************************************************/
 {
+   value = std::min(value, MAX_VAL);
+   value = std::max(value, MIN_VAL);
+  // std::cout << value << "\tChannel" << channel << std::endl;
    p.channel_value[channel] = value;
    p.byte_H[channel+1] = ((channel<<3)|((value & 0x700) >> 8));
    p.byte_L[channel+1] = (value & 0xFF);

@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]) {
         //printf("test\n");
         cnt += 0.05;
         dsm_analyser.DSM_analyse(false);
-        print_in_frame(dsm_analyser);
+        //print_in_frame(dsm_analyser);
         if(dsm_analyser.get_in_channel_value(OVERWRITE_CHANNEL) < 800)
         {
             dsm_analyser.change_channel_offsets(0,0,0,0,0,0,0);
