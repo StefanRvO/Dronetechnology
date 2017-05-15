@@ -7,7 +7,7 @@
 #include <chrono>
 #include <mutex>          // std::mutex
 #include <ros/ros.h>
-#include "std_msgs/Int16.h"
+#include "geometry_msgs/PointStamped.h"
 
 class DSMX_injector
 {
@@ -20,10 +20,10 @@ class DSMX_injector
                                             uint8_t roll_channel);
         void run_thread();
         void print_all();
-        void throttle_callback(const std_msgs::Int16 data);
-        void pitch_callback(const std_msgs::Int16 data);
-        void yaw_callback(const std_msgs::Int16 data);
-        void roll_callback(const std_msgs::Int16 data);
+        void throttle_callback(const geometry_msgs::PointStamped data);
+        void pitch_callback(const geometry_msgs::PointStamped data);
+        void yaw_callback(const geometry_msgs::PointStamped data);
+        void roll_callback(const geometry_msgs::PointStamped data);
         void change_channel_offset(uint8_t channel, int16_t offset);
 
     private:
@@ -56,32 +56,32 @@ DSMX_injector::DSMX_injector(std::string device, ros::NodeHandle *_nh,
 :overwrite_channel(_overwrite_channel), yaw_channel(_yaw_channel), pitch_channel(_pitch_channel),
 roll_channel(_roll_channel), throttle_channel(_throttle_channel), dsm_analyser((char *)device.c_str()), analyser_thread(&DSMX_injector::run_thread, this),
 nh(_nh),
-throttle_sub(nh->subscribe<std_msgs::Int16>("/yaw_offset",5, &DSMX_injector::throttle_callback, this)),
-yaw_sub(nh->subscribe<std_msgs::Int16>("/throttle_offset",5, &DSMX_injector::yaw_callback, this)),
-pitch_sub(nh->subscribe<std_msgs::Int16>("/pitch_offset",5, &DSMX_injector::pitch_callback, this)),
-roll_sub(nh->subscribe<std_msgs::Int16>("/roll_offset",5, &DSMX_injector::roll_callback, this))
+throttle_sub(nh->subscribe<geometry_msgs::PointStamped>("/yaw_offset",5, &DSMX_injector::throttle_callback, this)),
+yaw_sub(nh->subscribe<geometry_msgs::PointStamped>("/throttle_offset",5, &DSMX_injector::yaw_callback, this)),
+pitch_sub(nh->subscribe<geometry_msgs::PointStamped>("/pitch_offset",5, &DSMX_injector::pitch_callback, this)),
+roll_sub(nh->subscribe<geometry_msgs::PointStamped>("/roll_offset",5, &DSMX_injector::roll_callback, this))
 {
 }
 
-void DSMX_injector::throttle_callback(const std_msgs::Int16 data)
+void DSMX_injector::throttle_callback(const geometry_msgs::PointStamped data)
 {
-    this->change_channel_offset(this->throttle_channel, data.data);
+    this->change_channel_offset(this->throttle_channel, data.point.x);
 }
 
-void DSMX_injector::yaw_callback(const std_msgs::Int16 data)
+void DSMX_injector::yaw_callback(const geometry_msgs::PointStamped data)
 {
-    this->change_channel_offset(this->yaw_channel, data.data);
+    this->change_channel_offset(this->yaw_channel, data.point.x);
 }
 
-void DSMX_injector::roll_callback(const std_msgs::Int16 data)
+void DSMX_injector::roll_callback(const geometry_msgs::PointStamped data)
 {
     std::cout << "roll_offset: " << data << std::endl;
-    this->change_channel_offset(this->roll_channel, data.data);
+    this->change_channel_offset(this->roll_channel, data.point.x);
 }
 
-void DSMX_injector::pitch_callback(const std_msgs::Int16 data)
+void DSMX_injector::pitch_callback(const geometry_msgs::PointStamped data)
 {
-    this->change_channel_offset(this->pitch_channel, data.data);
+    this->change_channel_offset(this->pitch_channel, data.point.x);
 }
 
 void DSMX_injector::change_channel_offset(uint8_t channel, int16_t offset)

@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "image_grabber"); // Init ROS
     ros::NodeHandle nh; // Node handler
     image_transport::ImageTransport it(nh);
-    image_transport::Publisher pub = it.advertise("camera_image", 5);   // Image publisher
+    image_transport::Publisher pub = it.advertise("/camera_image", 5);   // Image publisher
 
     Mat cameraFrame;
     VideoCapture camera(0); // Open default camera 0
