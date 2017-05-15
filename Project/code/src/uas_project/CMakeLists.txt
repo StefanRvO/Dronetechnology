@@ -162,6 +162,12 @@ target_link_libraries(${PROJECT_NAME}_controller
     ${OpenCV_LIBS}
 )
 
+add_executable(${PROJECT_NAME}_illustrator src/TrackerIllustrator.cpp )
+target_link_libraries(${PROJECT_NAME}_illustrator
+    ${catkin_LIBRARIES}
+    ${OpenCV_LIBS}
+)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
