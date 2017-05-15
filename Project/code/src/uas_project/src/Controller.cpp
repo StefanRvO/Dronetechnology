@@ -36,6 +36,9 @@ void Controller::pos_callback(geometry_msgs::PointStamped point)
         if( abs(point.point.x) < 50) roll.point.x = 0;
         if( abs(point.point.y) < 50) pitch.point.x = 0;
     }
+    pitch.header.stamp = point.header.stamp;
+    roll.header.stamp = point.header.stamp;
+
     this->roll_publisher.publish(roll);
     this->pitch_publisher.publish(pitch);
 
