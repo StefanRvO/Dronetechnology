@@ -2,6 +2,7 @@
   <node name="image_capture" pkg="uas_project" type="uas_project_image_capture" output="screen" />
   <node name="ball_tracker" pkg="uas_project" type="uas_project_ball_tracker" output="screen" />
   <node name="controller" pkg="uas_project" type="uas_project_controller" output="screen" />
+  <node name="illustrator" pkg="uas_project" type="uas_project_illustrator" output="screen" />
   <node name="injector" pkg="uas_project" type="uas_project_dsmx_injector" output="screen">
   <param name="uart_device" value="/dev/ttyAMA0" />
   </node>

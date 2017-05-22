@@ -118,7 +118,7 @@ Point2f HsvAdjust::getBallPosition(Mat img)
 
     // Find contours
     areaThresh = 382;
-    compactThresh = 565;
+    compactThresh = 800;
     dst = findContours(dst);
 
     return Center;

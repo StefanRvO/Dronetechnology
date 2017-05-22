@@ -41,13 +41,21 @@ void all_callback(  const sensor_msgs::ImageConstPtr& camera_image,
 {
     cv::Mat img = cv_bridge::toCvShare(camera_image, "bgr8")->image;
     cv::Point2f pos(position->point.x, position->point.y);
+    pos.x +=  img.size().width / 2.;
+    pos.y += img.size().height / 2.;
+    cv::Point2f roll_point(pos.x + roll_offset->point.x / 3, pos.y);
+    cv::Point2f pitch_point(pos.x, pos.y  + pitch_offset->point.x / 3);
+    cv::Point2f combined_point(pos.x + roll_offset->point.x / 3, pos.y + pitch_offset->point.x / 3);
+
     cv::circle(img, pos, 10, cv::Scalar(0, 255, 0), 2);
+    cv::arrowedLine(img, pos, roll_point, cv::Scalar(127, 127, 0), 2, CV_AA , 0, 0.1);
+    cv::arrowedLine(img, pos, pitch_point, cv::Scalar(127, 127, 0), 2, CV_AA , 0, 0.1);
+    cv::arrowedLine(img, pos, combined_point, cv::Scalar(127, 255, 0), 2, CV_AA , 0, 0.1);
 
     sensor_msgs::Image img_msg = imageToMsg(img);   // Convert webcam image to a ROS message
 
 
-    overlay_pub->publish(img_msg);
-}
+    overlay_pub->publish(img_msg);}
 
 
 
